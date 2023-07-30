@@ -1,5 +1,5 @@
 import Sidebar from "@/component/components/admin/layout/Sidebar";
-import "./globals.css";
+import "../globals.css";
 import Header from "@/component/components/admin/layout/Header";
 
 export const metadata = {
