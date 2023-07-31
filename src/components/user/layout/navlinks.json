@@ -1,0 +1,6 @@
+[
+  { "name": "Ana Sayfa", "link": "/" },
+  { "name": "Hakkımızda", "link": "/about" },
+  { "name": "Referanslar", "link": "/referances" },
+  { "name": "İletişim", "link": "/contact" }
+]

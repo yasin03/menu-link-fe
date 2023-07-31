@@ -51,10 +51,17 @@ const Carousel = () => {
       <div className="hidden group-hover:block absolute top-[50%] right-5 text-2xl rounded-full p-2 hover:bg-black/20 hover:p-4 text-gray-200 cursor-pointer transition-all">
         <FaChevronRight size={32} onClick={nextSlide} />
       </div>
-      <div className="absolute bottom-2 left-[50%] -translate-x-2/4 flex  justify-center p-2 text-gray-600">
+      <div className="absolute bottom-2 left-[50%] -translate-x-2/4 flex justify-center items-center p-1">
         {slides.map((slide, i) => (
-          <div key={i} onClick={() => goSlide(i)} className="cursor-pointer ">
-            <BsDot size={36} />
+          <div
+            key={i}
+            onClick={() => goSlide(i)}
+            className={`cursor-pointer ${
+              currentIndex === i ? "text-gray-600 text-4xl" : "text-gray-400 text-3xl"
+            }`}
+          >
+            <BsDot 
+             />
           </div>
         ))}
       </div>

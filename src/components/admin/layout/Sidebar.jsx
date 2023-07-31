@@ -30,7 +30,7 @@ const Sidebar = () => {
       >
         <HiMenuAlt3
           size={26}
-          className="cursor-pointer m-5 "
+          className="cursor-pointer m-4 "
           onClick={() => setOpen(!open)}
         />
       </div>

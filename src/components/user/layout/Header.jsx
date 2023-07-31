@@ -3,16 +3,11 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { MdClose } from "react-icons/md";
+import links from "./navlinks.json";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
 
-  const links = [
-    { name: "Ana Sayfa", link: "/" },
-    { name: "Hakkımızda", link: "/about" },
-    { name: "Referanslar", link: "/referances" },
-    { name: "İletişim", link: "/contact" },
-  ];
   return (
     <div className="px-8 md:px-12 lg:px-24 py-4 bg-gray-50 shadow flex">
       <div className="flex-1 flex items-center">Logo</div>

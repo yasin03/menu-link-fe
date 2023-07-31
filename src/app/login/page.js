@@ -12,7 +12,7 @@ const page = () => {
   };
   return (
     <div className="w-screen h-screen bg-red-400 flex  justify-center items-center bg-[url('/assets/img/login-bg.jpg')] bg-cover bg-no-repeat bg-center ">
-      <div className="w-96 h-80 bg-gray-200 p-8 rounded-md shadow">
+      <div className="w-96 h-96 bg-gray-200 p-8 rounded-md shadow">
         <form>
           <label className="block mb-4">
             <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-gray-700 ">
