@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { MdClose } from "react-icons/md";
 import links from "./navlinks.json";
+import { Button } from "@nextui-org/react";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -37,17 +38,14 @@ const Header = () => {
           {links.map((link, index) => (
             <li
               key={index}
-              className="hover:text-gray-400 w-32 flex justify-center "
+              className="hover:text-gray-400 w-28 flex justify-center "
             >
               <Link href={link.link}>{link.name}</Link>
             </li>
           ))}
         </ul>
-
         <Link href="/login">
-          <button className="bg-rose-600 text-gray-100 py-2 px-6 rounded mt-8 md:mt-0 md:ml-8 hover:bg-rose-700">
-            Giriş Yap
-          </button>
+          <Button >Giriş Yap</Button>
         </Link>
       </div>
     </div>

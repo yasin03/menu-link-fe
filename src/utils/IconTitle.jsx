@@ -3,7 +3,7 @@ import React from "react";
 const IconTitle = ({ title, desc, icon, isDark }) => {
   return (
     <div className={`flex gap-4 items-center `}>
-      <div className="flex justify-center items-center bg-rose-300 rounded-full p-2 md:p-4 ">
+      <div className="flex justify-center items-center bg-rose-200 rounded-full p-2 md:p-4 text-rose-950">
         {React.createElement(icon, { size: "20" })}
       </div>
       <div className={`flex flex-col gap-1`}>

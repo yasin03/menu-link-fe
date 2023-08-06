@@ -3,10 +3,11 @@ import Title from "@/component/utils/Title";
 import Image from "next/image";
 import React from "react";
 import { GrScorecard } from "react-icons/gr";
+import { BiSolidFoodMenu } from "react-icons/bi";
 
 const Info2 = () => {
   return (
-    <div className="px-8 md:px-12 lg:px-24 py-24 flex flex-col md:flex-row-reverse w-full gap-10 bg-rose-700 ">
+    <div className="px-8 md:px-12 lg:px-24 py-24 flex flex-col md:flex-row-reverse w-full gap-10 bg-rose-600 ">
       <div className="flex flex-col gap-10">
         <Title
           title={"Daha çok detay, daha az problem"}
@@ -29,7 +30,7 @@ const Info2 = () => {
             desc={
               "Menünüzde glüten, süt, soğan gibi ürünleri ve besin değerleri kritik detayları belirtebilirsiniz. Oluşabilecek olumsuz durumların önüne geçebilir ve müşterilerin seçimlerini rahatça yapmalarını sağlayıp memnuniyetinizi arttırabilirsiniz."
             }
-            icon={GrScorecard}
+            icon={BiSolidFoodMenu}
             isDark={true}
           />
         </div>
