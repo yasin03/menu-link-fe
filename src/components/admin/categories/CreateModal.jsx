@@ -1,6 +1,6 @@
 import { toast } from "@/component/utils/Swal";
 import React, { useState } from "react";
-import categories from "./categories.json";
+import { categories } from "./data";
 import Image from "next/image";
 import {
   Button,
@@ -12,7 +12,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import { FiPlus } from "react-icons/fi";
+import { LuPlus } from "react-icons/lu";
 
 const CreateModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -33,11 +33,13 @@ const CreateModal = () => {
     <>
       <Button
         className="bg-foreground text-background mb-3"
-        endContent={<FiPlus />}
+        endContent={<LuPlus />}
         onClick={onOpen}
+        size="sm"
       >
         Ekle
       </Button>
+
       <Modal
         backdrop="opaque"
         isOpen={isOpen}
@@ -70,8 +72,8 @@ const CreateModal = () => {
                 Kategori Ekle
               </ModalHeader>
               <ModalBody>
-                <div className="flex justify-between mt-8">
-                  <Image className="rounded-md" width={100} height={100} />
+                <div className="flex justify-between mt-6">
+                  <Image className="rounded-md" width={100} height={60} />
                   <input type="file" />
                 </div>
                 <Input variant="faded" type="text" label="Kategori" />

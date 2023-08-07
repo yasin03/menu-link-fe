@@ -1,6 +1,6 @@
 import { toast } from "@/component/utils/Swal";
 import React, { useState } from "react";
-import categories from "./categories.json";
+import { categories } from "./data.js";
 import Image from "next/image";
 import {
   Button,
@@ -12,6 +12,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
+import { LuEdit3 } from "react-icons/lu";
 
 const UpdateModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -31,9 +32,7 @@ const UpdateModal = () => {
 
   return (
     <>
-      <Button color="primary" variant="light" onClick={onOpen}>
-        Güncelle
-      </Button>
+      <LuEdit3 onClick={onOpen} />
       <Modal
         backdrop="opaque"
         isOpen={isOpen}

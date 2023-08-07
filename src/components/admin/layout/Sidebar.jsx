@@ -40,7 +40,11 @@ const Sidebar = () => {
           />
         )}
 
-        <div className={`${openMenu ? "hidden" : ""} bg-gray-800 w-60 h-96 rounded-br-xl`}>
+        <div
+          className={`${
+            openMenu ? "hidden" : ""
+          } bg-gray-800 w-60 h-96 rounded-br-xl`}
+        >
           <ul className=" mt-4 pt-8 flex flex-col gap-1 relative text-gray-100">
             {menus.map((menu, index) => (
               <Link
@@ -51,9 +55,7 @@ const Sidebar = () => {
                 }`}
               >
                 <div>{React.createElement(menu?.icon, { size: "24" })}</div>
-                <li
-                  className={` text-lg whitespace-pre duration-500`}
-                >
+                <li className={` text-lg whitespace-pre duration-500`}>
                   {menu?.name}
                 </li>
               </Link>
@@ -64,7 +66,7 @@ const Sidebar = () => {
       <div
         className={`${
           openSide ? " md:w-60" : " md:w-24"
-        }  bg-gray-800 text-gray-200  p-2 md:h-screen transition-all shadow hidden md:inline-block`}
+        } bg-gray-800 text-gray-200 p-2 md:h-screen transition-all shadow hidden md:inline-block`}
       >
         <div
           className={`flex border-b border-gray-500 ${
@@ -90,15 +92,19 @@ const Sidebar = () => {
             <Link
               key={index}
               href={menu.link}
-              className={`p-3 hover:bg-gray-700 hover:rounded-lg flex items-center gap-2 ${
-                !openSide && "justify-center py-6"
+              className={`p-3 hover:bg-gray-700 hover:rounded-lg flex items-center gap-4 ${
+                !openSide && "justify-center py-5"
               }`}
             >
-              <div>{React.createElement(menu?.icon, { size: "24" })}</div>
+              <div>
+                {React.createElement(menu?.icon, {
+                  size: !openSide ? "24" : "20",
+                })}
+              </div>
               <li
                 className={`${
                   !openSide && "hidden"
-                } text-lg whitespace-pre duration-500`}
+                } text-md whitespace-pre duration-500`}
               >
                 {menu?.name}
               </li>
