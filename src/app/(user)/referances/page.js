@@ -1,4 +1,4 @@
-import HeadSection from "@/component/utils/HeadSection";
+import HeadSection from "@/component/components/ui/HeadSection";
 import React from "react";
 
 const page = () => {

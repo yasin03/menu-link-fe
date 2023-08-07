@@ -10,23 +10,20 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  useDisclosure,
 } from "@nextui-org/react";
 
-const UpdateModal = ({ showUpdate, handleCloseUpdate }) => {
+const UpdateModal = () => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   const [inputText, setInputText] = useState("");
   const [category, setCategory] = useState("");
 
-  const handleOutsideClick = (e) => {
-    if (e.target.id === "container") {
-      handleCloseUpdate();
-    }
-  };
   const handleCreate = () => {
     let newCategory = { name: inputText };
     try {
       categories.push(newCategory);
       toast("Created Successfully!", "success");
-      handleCloseUpdate();
     } catch (error) {
       toast(`Hata : ${error.message}`, "error");
     }
@@ -34,11 +31,13 @@ const UpdateModal = ({ showUpdate, handleCloseUpdate }) => {
 
   return (
     <>
+      <Button color="primary" variant="light" onClick={onOpen}>
+        Güncelle
+      </Button>
       <Modal
         backdrop="opaque"
-        isOpen={showUpdate}
-        id="container"
-        closeButton={handleCloseUpdate}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
         motionProps={{
           variants: {
             enter: {
@@ -61,24 +60,28 @@ const UpdateModal = ({ showUpdate, handleCloseUpdate }) => {
         }}
       >
         <ModalContent>
-          <ModalHeader className="flex flex-col gap-1">
-            Kategori Güncelle
-          </ModalHeader>
-          <ModalBody>
-            <div className="flex justify-between mt-8">
-              <Image className="rounded-md" width={100} height={100} />
-              <input type="file" />
-            </div>
-            <Input variant="faded" type="text" label="Kategori" />
-          </ModalBody>
-          <ModalFooter>
-            <Button color="danger" variant="light" onClick={handleCloseUpdate}>
-              Close
-            </Button>
-            <Button color="primary" onPress={handleCreate}>
-              Action
-            </Button>
-          </ModalFooter>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Kategori Güncelle
+              </ModalHeader>
+              <ModalBody>
+                <div className="flex justify-between mt-8">
+                  <Image className="rounded-md" width={100} height={100} />
+                  <input type="file" />
+                </div>
+                <Input variant="faded" type="text" label="Kategori" />
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onClick={onClose}>
+                  Close
+                </Button>
+                <Button color="primary" onPress={handleCreate}>
+                  Action
+                </Button>
+              </ModalFooter>
+            </>
+          )}
         </ModalContent>
       </Modal>
     </>

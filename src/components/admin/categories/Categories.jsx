@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CreateModal from "./CreateModal";
 import categories from "./categories.json";
 import { MdDelete } from "react-icons/md";
-import { FiPlus } from "react-icons/fi";
+
 
 import { question } from "@/component/utils/Swal";
 import UpdateModal from "./UpdateModal";
@@ -10,7 +10,6 @@ import Image from "next/image";
 import { Button, useDisclosure } from "@nextui-org/react";
 
 const Categories = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [showCreate, setShowCreate] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
 
@@ -35,9 +34,7 @@ const Categories = () => {
   return (
     <>
       <div className="flex justify-end md:mt-0 mt-16 ">
-        <Button isIconOnly color="primary" className="mb-3" onClick={onOpen}>
-          <FiPlus />
-        </Button>
+        <CreateModal />
       </div>
       <div className="p-4 rounded-md border shadow border-gray-300 ">
         <table className=" table-auto ">
@@ -64,18 +61,13 @@ const Categories = () => {
                 </td>
                 <td className="p-2 border pl-4">{category.name}</td>
                 <td className="p-2 border text-center">
-                  <Button
-                    color="primary"
-                    variant="light"
-                    onClick={handleCloseUpdate}
-                  >
-                    Güncelle
-                  </Button>
+                  <UpdateModal />
                 </td>
                 <td className="p-2 text-center">
                   <Button
                     isIconOnly
                     color="danger"
+                    variant="faded"
                     onClick={() => handleDelete(index)}
                   >
                     <MdDelete />
@@ -86,15 +78,6 @@ const Categories = () => {
           </tbody>
         </table>
       </div>
-      <CreateModal
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onOpenChange={onOpenChange}
-      />
-      <UpdateModal
-        showUpdate={showUpdate}
-        handleCloseUpdate={handleCloseUpdate}
-      />
     </>
   );
 };

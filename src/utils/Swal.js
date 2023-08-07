@@ -5,6 +5,7 @@ export const question = (title, text = "") => {
     title,
     text,
     icon: "question",
+    confirmButtonColor: "#006FEE",
     showCancelButton: true,
   });
 };

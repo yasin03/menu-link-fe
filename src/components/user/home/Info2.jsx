@@ -1,5 +1,5 @@
-import IconTitle from "@/component/utils/IconTitle";
-import Title from "@/component/utils/Title";
+import IconTitle from "@/component/components/ui/IconTitle";
+import Title from "@/component/components/ui/Title";
 import Image from "next/image";
 import React from "react";
 import { GrScorecard } from "react-icons/gr";

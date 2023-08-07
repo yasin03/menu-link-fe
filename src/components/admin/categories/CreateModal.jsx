@@ -10,23 +10,20 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  useDisclosure,
 } from "@nextui-org/react";
+import { FiPlus } from "react-icons/fi";
 
-const CreateModal = ({ isOpen, onOpen, onOpenChange }) => {
+const CreateModal = () => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [inputText, setInputText] = useState("");
   const [category, setCategory] = useState("");
 
-  const handleOutsideClick = (e) => {
-    if (e.target.id === "container") {
-      handleCloseCreate();
-    }
-  };
   const handleCreate = () => {
     let newCategory = { name: inputText };
     try {
       categories.push(newCategory);
       toast("Created Successfully!", "success");
-      handleCloseCreate();
     } catch (error) {
       toast(`Hata : ${error.message}`, "error");
     }
@@ -34,6 +31,13 @@ const CreateModal = ({ isOpen, onOpen, onOpenChange }) => {
 
   return (
     <>
+      <Button
+        className="bg-foreground text-background mb-3"
+        endContent={<FiPlus />}
+        onClick={onOpen}
+      >
+        Ekle
+      </Button>
       <Modal
         backdrop="opaque"
         isOpen={isOpen}

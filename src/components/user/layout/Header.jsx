@@ -3,52 +3,70 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { MdClose } from "react-icons/md";
-import links from "./navlinks.json";
-import { Button } from "@nextui-org/react";
+import navLinks from "./navlinks.json";
+import {
+  Button,
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenu,
+  NavbarMenuItem,
+  NavbarMenuToggle,
+} from "@nextui-org/react";
 
 const Header = () => {
-  const [open, setOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="px-8 md:px-12 lg:px-24 py-4 bg-gray-50 shadow flex">
-      <div className="flex-1 flex items-center">Logo</div>
-      <div className="md:hidden transition-all ease-in duration-500">
-        {open ? (
-          <HiMenuAlt3
-            size={26}
-            className="cursor-pointer my-3 "
-            onClick={() => setOpen(!open)}
-          />
-        ) : (
-          <MdClose
-            size={26}
-            className="cursor-pointer my-3 "
-            onClick={() => setOpen(!open)}
-          />
-        )}
-      </div>
-      <div
-        className={`${
-          open
-            ? "hidden"
-            : "shrink flex items-center absolute md:static z-[10] flex-col bg-gray-100 w-full md:w-auto left-0 top-20 h-80 md:h-full gap-2 pt-6 md:pt-0 md:flex-row md:items-center md:justify-center transition-all ease-in duration-500"
-        }  `}
-      >
-        <ul className="flex flex-col gap-5 md:flex-row  text-gray-600 ">
-          {links.map((link, index) => (
-            <li
-              key={index}
-              className="hover:text-gray-400 w-28 flex justify-center "
+    <Navbar onMenuOpenChange={setIsMenuOpen} className="shadow" maxWidth="xl">
+      <NavbarContent>
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="sm:hidden"
+        />
+        <NavbarBrand>
+          <p className="font-bold text-inherit">ACME</p>
+        </NavbarBrand>
+      </NavbarContent>
+
+      <NavbarContent className="hidden sm:flex gap-12" justify="end">
+        {navLinks.map((item, index) => (
+          <NavbarItem key={index} className="hover:text-rose-700">
+            <Link color="foreground" href={item?.link}>
+              {item?.name}
+            </Link>
+          </NavbarItem>
+        ))}
+      </NavbarContent>
+      <NavbarContent justify="end">
+        <NavbarItem>
+          <Button as={Link} color="danger" href="/login" variant="flat">
+            Giriş
+          </Button>
+        </NavbarItem>
+      </NavbarContent>
+      <NavbarMenu>
+        {navLinks.map((item, index) => (
+          <NavbarMenuItem key={`${index}`}>
+            <Link
+              color={
+                index === 2
+                  ? "primary"
+                  : index === navLinks.length - 1
+                  ? "danger"
+                  : "foreground"
+              }
+              className="w-full"
+              href={item.link}
+              size="lg"
             >
-              <Link href={link.link}>{link.name}</Link>
-            </li>
-          ))}
-        </ul>
-        <Link href="/login">
-          <Button >Giriş Yap</Button>
-        </Link>
-      </div>
-    </div>
+              {item.name}
+            </Link>
+          </NavbarMenuItem>
+        ))}
+      </NavbarMenu>
+    </Navbar>
   );
 };
 
