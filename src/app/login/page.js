@@ -9,24 +9,30 @@ import {
   Divider,
   Input,
   Link,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { BsEye, BsEyeSlash } from "react-icons/bs";
+import React, { useRef, useState } from "react";
 import { LuMail, LuLock, LuUnlock } from "react-icons/lu";
+import { signIn } from "next-auth/react";
 
 const page = () => {
   const [showPassword, setShowPassword] = useState(false);
   const handlePassword = () => setShowPassword(!showPassword);
   const router = useRouter();
 
-  const handleSubmit = () => {
-    router.push("/admin");
+  const email = useRef("");
+  const password = useRef("");
+
+  const handleSubmit = async () => {
+    try {
+      const result = await signIn("credentials", {
+        email: email.current,
+        password: password.current,
+        redirect: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="w-screen h-screen bg-red-400 flex  justify-center items-center bg-[url('/assets/img/login-bg.jpg')] bg-cover bg-no-repeat bg-center ">
@@ -43,6 +49,7 @@ const page = () => {
             placeholder="Enter your email"
             variant="bordered"
             className="mb-4"
+            onChange={(e) => (email.current = e.target.value)}
           />
           <Input
             endContent={
@@ -63,6 +70,7 @@ const page = () => {
             type={showPassword ? "text" : "password"}
             variant="bordered"
             className="mb-2"
+            onChange={(e) => (password.current = e.target.value)}
           />
           <div className="flex py-2 px-1 justify-between">
             <Checkbox
@@ -79,7 +87,13 @@ const page = () => {
         </CardBody>
         <Divider />
         <CardFooter className="flex flex-row justify-end">
-          <Button color="primary" className="mr-2" href="/admin" as={Link}>
+          <Button
+            color="primary"
+            className="mr-2"
+            href="/admin"
+            as={Link}
+            onClick={handleSubmit}
+          >
             Sign in
           </Button>
         </CardFooter>
