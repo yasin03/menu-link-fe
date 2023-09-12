@@ -13,6 +13,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { LuPlus } from "react-icons/lu";
+import { createCategory } from "@/component/api/category-service";
 
 const CreateModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -20,10 +21,12 @@ const CreateModal = () => {
   const [category, setCategory] = useState("");
 
   const handleCreate = () => {
-    let newCategory = { name: inputText };
+    const newCategory = { name: inputText };
     try {
-      categories.push(newCategory);
+      createCategory(newCategory);
       toast("Created Successfully!", "success");
+      console.log(newCategory);
+      onOpen();
     } catch (error) {
       toast(`Hata : ${error.message}`, "error");
     }
@@ -80,10 +83,10 @@ const CreateModal = () => {
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onClick={onClose}>
-                  Close
+                  Kapat
                 </Button>
                 <Button color="primary" onPress={handleCreate}>
-                  Action
+                  Ekle
                 </Button>
               </ModalFooter>
             </>

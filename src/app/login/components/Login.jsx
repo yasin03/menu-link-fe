@@ -91,7 +91,7 @@ const LoginPage = () => {
             color="primary"
             className="mr-2"
             as={Link}
-            onClick={handleSubmit}
+            onPress={handleSubmit}
           >
             Sign in
           </Button>

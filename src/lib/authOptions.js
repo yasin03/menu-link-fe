@@ -1,4 +1,4 @@
-import CredentialsProvider from "next-auth/providers/credentials"
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions = {
   session: {
@@ -24,28 +24,27 @@ export const authOptions = {
               body: JSON.stringify(credentials),
               headers: { "Content-Type": "application/json" },
             }
-          )
-          const user = await res.json()
+          );
+          const user = await res.json();
 
           if (res.ok && user) {
             return {
-              id: "asdasdasd0-123123",
-              name: "Bora",
-              email: "bora@gmail.com",
+              id: user.id,
+              name: user.name,
               key: user.token,
-            }
+            };
           } else {
-            return null
+            return null;
           }
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
       },
     }),
   ],
   callbacks: {
     async redirect({ url, baseUrl }) {
-      return `${baseUrl}/admin`
+      return `${baseUrl}/admin`;
     },
     async session({ session, token }) {
       return {
@@ -55,18 +54,18 @@ export const authOptions = {
           id: token.id,
           key: token.key,
         },
-      }
+      };
     },
     async jwt({ token, user }) {
       if (user) {
-        const u = user
+        const u = user;
         return {
           ...token,
           id: u.id,
           key: u.key,
-        }
+        };
       }
-      return token
+      return token;
     },
   },
-}
+};

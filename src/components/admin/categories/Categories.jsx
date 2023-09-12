@@ -1,18 +1,8 @@
 import React, { useState, useCallback, useMemo } from "react";
 import CreateModal from "./CreateModal";
 import { categories, columns, statusOptions } from "./data.js";
-import { MdDelete } from "react-icons/md";
-import {
-  LuChevronDown,
-  LuTrash2,
-  LuPlus,
-  LuSearch,
-  LuEye,
-} from "react-icons/lu";
-import { question } from "@/component/utils/Swal";
+import { LuChevronDown, LuTrash2, LuSearch, LuEye } from "react-icons/lu";
 import UpdateModal from "./UpdateModal";
-import Image from "next/image";
-
 import {
   Table,
   TableHeader,
@@ -26,25 +16,29 @@ import {
   Dropdown,
   DropdownMenu,
   DropdownItem,
-  Chip,
   User,
   Pagination,
   Tooltip,
 } from "@nextui-org/react";
 import { capitalize } from "@/component/utils/utils";
 
-const statusColorMap = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
-};
-
 const INITIAL_VISIBLE_COLUMNS = ["id", "image", "category", "actions"];
+
+async function getProjects() {
+  const res = await fetch(
+    `https://menu-project-1c3dcd8eae29.herokuapp.com/category/all`
+  );
+  const projects = await res.json();
+
+  return projects;
+}
 
 const Categories = () => {
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
-  const [visibleColumns, setVisibleColumns] = useState(new Set(INITIAL_VISIBLE_COLUMNS));
+  const [visibleColumns, setVisibleColumns] = useState(
+    new Set(INITIAL_VISIBLE_COLUMNS)
+  );
   const [statusFilter, setStatusFilter] = useState("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [sortDescriptor, setSortDescriptor] = useState({

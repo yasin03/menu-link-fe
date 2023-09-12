@@ -1,21 +1,23 @@
-"use client"
-import { getSession, signOut } from "next-auth/react"
-import { useRouter } from "next/navigation"
-import React from "react"
+"use client";
+import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 const page = () => {
-  const router = useRouter()
+  const { data: session } = useSession();
+  console.log(session?.user);
+  const router = useRouter();
   return (
     <div className="p-4">
       <button
         onClick={() => {
-          signOut()
+          signOut();
         }}
       >
         Logout
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
