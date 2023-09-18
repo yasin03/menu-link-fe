@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   Button,
   Card,
@@ -9,19 +9,21 @@ import {
   Divider,
   Input,
   Link,
-} from "@nextui-org/react"
-import { useRouter } from "next/navigation"
-import React, { useRef, useState } from "react"
-import { LuMail, LuLock, LuUnlock } from "react-icons/lu"
-import { signIn } from "next-auth/react"
+} from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import React, { useRef, useState } from "react";
+import { LuMail, LuLock, LuUnlock } from "react-icons/lu";
+import { useSession, signIn } from "next-auth/react";
+
 
 const LoginPage = () => {
-  const [showPassword, setShowPassword] = useState(false)
-  const handlePassword = () => setShowPassword(!showPassword)
-  const router = useRouter()
+  const [showPassword, setShowPassword] = useState(false);
+  const handlePassword = () => setShowPassword(!showPassword);
+  
+  const router = useRouter();
 
-  const email = useRef("")
-  const password = useRef("")
+  const email = useRef("");
+  const password = useRef("");
 
   const handleSubmit = async () => {
     try {
@@ -29,11 +31,11 @@ const LoginPage = () => {
         email: email.current,
         password: password.current,
         redirect: true,
-      })
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   return (
     <div className="w-screen h-screen bg-red-400 flex  justify-center items-center bg-[url('/assets/img/login-bg.jpg')] bg-cover bg-no-repeat bg-center ">
       <Card className="w-96">
@@ -98,7 +100,7 @@ const LoginPage = () => {
         </CardFooter>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;

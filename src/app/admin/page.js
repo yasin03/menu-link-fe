@@ -2,10 +2,17 @@
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { useEffect } from "react";
+import secureLocalStorage from "react-secure-storage";
 
 const page = () => {
   const { data: session } = useSession();
-  console.log(session?.user);
+
+/*   useEffect(() => {
+     secureLocalStorage.setItem("token", session?.user.key);
+  }, []) */
+  
+ 
   const router = useRouter();
   return (
     <div className="p-4">

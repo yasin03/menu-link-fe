@@ -32,7 +32,8 @@ export const authOptions = {
               id: user.id,
               name: user.name,
               key: user.token,
-            };
+             
+            }; 
           } else {
             return null;
           }

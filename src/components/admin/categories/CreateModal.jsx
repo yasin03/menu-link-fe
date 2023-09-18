@@ -1,6 +1,5 @@
 import { toast } from "@/component/utils/Swal";
 import React, { useState } from "react";
-import { categories } from "./data";
 import Image from "next/image";
 import {
   Button,
@@ -18,14 +17,13 @@ import { createCategory } from "@/component/api/category-service";
 const CreateModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [inputText, setInputText] = useState("");
-  const [category, setCategory] = useState("");
 
   const handleCreate = () => {
     const newCategory = { name: inputText };
+
     try {
       createCategory(newCategory);
       toast("Created Successfully!", "success");
-      console.log(newCategory);
       onOpen();
     } catch (error) {
       toast(`Hata : ${error.message}`, "error");
@@ -79,13 +77,18 @@ const CreateModal = () => {
                   <Image className="rounded-md" width={100} height={60} />
                   <input type="file" />
                 </div>
-                <Input variant="faded" type="text" label="Kategori" />
+                <Input
+                  variant="faded"
+                  type="text"
+                  label="Kategori"
+                  onChange={(e) => setInputText(e.target.value)}
+                />
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onClick={onClose}>
                   Kapat
                 </Button>
-                <Button color="primary" onPress={handleCreate}>
+                <Button color="primary" onClick={handleCreate}>
                   Ekle
                 </Button>
               </ModalFooter>
