@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import CreateModal from "./CreateModal";
 import { categories, columns, statusOptions } from "./data.js";
 import { LuChevronDown, LuTrash2, LuSearch, LuEye } from "react-icons/lu";
@@ -21,19 +21,13 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import { capitalize } from "@/component/utils/utils";
+import { getCategoriesAll } from "@/component/api/category-service";
 
 const INITIAL_VISIBLE_COLUMNS = ["id", "image", "category", "actions"];
 
-async function getProjects() {
-  const res = await fetch(
-    `https://menu-project-1c3dcd8eae29.herokuapp.com/category/all`
-  );
-  const projects = await res.json();
-
-  return projects;
-}
-
 const Categories = () => {
+  const [loading, setLoading] = useState(false);
+  const [categoriess, setCategoriess] = useState();
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
   const [visibleColumns, setVisibleColumns] = useState(
@@ -94,14 +88,14 @@ const Categories = () => {
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = useCallback((user, columnKey) => {
-    const cellValue = user[columnKey];
+  const renderCell = useCallback((category, columnKey) => {
+    const cellValue = category[columnKey];
 
     switch (columnKey) {
       case "image":
         return (
           <User
-            avatarProps={{ radius: "md", size: "sm", src: user.image }}
+            avatarProps={{ radius: "md", size: "sm", src: category.image }}
             classNames={{
               description: "text-default-500",
             }}
@@ -113,7 +107,7 @@ const Categories = () => {
           <div className="flex flex-col">
             <p className="text-bold text-small capitalize">{cellValue}</p>
             <p className="text-bold text-tiny capitalize text-default-500">
-              {user.name}
+              {category.name}
             </p>
           </div>
         );
@@ -143,6 +137,23 @@ const Categories = () => {
     }
   }, []);
 
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      const resp = await getCategoriesAll();
+      setCategoriess(resp.data.content);
+      console.log("rest--", resp.data.content);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    loadData();
+  }, []);
+
   const onRowsPerPageChange = useCallback((e) => {
     setRowsPerPage(Number(e.target.value));
     setPage(1);
@@ -159,7 +170,7 @@ const Categories = () => {
 
   const topContent = useMemo(() => {
     return (
-      <div className="flex flex-col gap-4 ">
+      <div className="flex flex-col gap-4 w-full">
         <div className="flex justify-between gap-3 items-center">
           <Input
             isClearable

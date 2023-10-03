@@ -18,11 +18,11 @@ const CreateModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [inputText, setInputText] = useState("");
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     const newCategory = { name: inputText };
 
     try {
-      createCategory(newCategory);
+      await createCategory(newCategory);
       toast("Created Successfully!", "success");
       onOpen();
     } catch (error) {

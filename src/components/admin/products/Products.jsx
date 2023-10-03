@@ -14,27 +14,12 @@ const Products = () => {
   const handleShow = () => setShow(true);
 
   const handleCreate = async () => {
-    const company = {
-      companyName: "test",
-      email: "test@gmail.com",
-      webAddress: "www.test.com",
-      phone: "123-333-4444",
-      mobilePhone: "123-333-4444",
-      taxNumber: "taxNumber",
-      taxOffice: "taxOffice",
+    const categories = {
+      name: category,
     };
-    const product = {
-      name: "ezogelin",
-      calories: 25,
-      description: "Ezogelin çorbası ezodan yapılır",
-      isActive: true,
-      categoryId: 2,
-    };
-    const category = {
-      name: "testy33",
-    };
+
     try {
-      await createCategory(category);
+      await createCategory(categories);
       toast("Created Successfully!", "success");
     } catch (error) {
       toast(`Hata : ${error.message}`, "error");

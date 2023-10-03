@@ -10,30 +10,44 @@ import {
   Input,
   Link,
 } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { LuMail, LuLock, LuUnlock } from "react-icons/lu";
-import { useSession, signIn } from "next-auth/react";
-
+import secureLocalStorage from "react-secure-storage";
+import { login } from "@/component/api/user-service";
+import { toast } from "@/component/utils/Swal";
+import { useDispatch } from "react-redux";
+import { loginFailed, loginSuccess } from "@/component/store/slices/auth-slice";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const handlePassword = () => setShowPassword(!showPassword);
-  
-  const router = useRouter();
+  const dispatch = useDispatch();
 
+  const router = useRouter();
   const email = useRef("");
   const password = useRef("");
+  const handlePassword = () => setShowPassword(!showPassword);
 
   const handleSubmit = async () => {
+    const values = {
+      email: email.current,
+      password: password.current,
+      redirect: false,
+    };
     try {
-      const result = await signIn("credentials", {
-        email: email.current,
-        password: password.current,
-        redirect: true,
-      });
+      const respAuth = await login(values);
+
+      if (respAuth.status === 200) {
+        secureLocalStorage.setItem("token", respAuth.data.token);
+        console.log("token->", respAuth.data.token);
+
+        dispatch(loginSuccess(respAuth.config.data));
+        toast("User logged in successfully", "success");
+        router.push("/admin");
+      }
     } catch (error) {
-      console.log(error);
+      toast("Kullanıcı adı veya şifre hatalı" + error, "error");
+      dispatch(loginFailed());
     }
   };
   return (
@@ -58,12 +72,12 @@ const LoginPage = () => {
               showPassword ? (
                 <LuUnlock
                   className="text-2xl text-default-400 cursor-pointer flex-shrink-0"
-                  onClick={handlePassword}
+                  onPress={handlePassword}
                 />
               ) : (
                 <LuLock
                   className="text-2xl text-default-400 cursor-pointer flex-shrink-0"
-                  onClick={handlePassword}
+                  onPress={handlePassword}
                 />
               )
             }
