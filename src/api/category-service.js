@@ -14,7 +14,7 @@ export const createCategory = (category) => {
     `https://menu-project-1c3dcd8eae29.herokuapp.com/category/add`,
     category,
     {
-      headers: header
+      headers: authHeader(),
     }
   );
 };
