@@ -1,8 +1,6 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
-import { HiMenuAlt3 } from "react-icons/hi";
-import { MdClose } from "react-icons/md";
 import navLinks from "./navlinks.json";
 import {
   Button,
@@ -22,7 +20,7 @@ const Header = () => {
     <Navbar onMenuOpenChange={setIsMenuOpen} className="shadow" maxWidth="xl">
       <NavbarContent>
         <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          ariaLabel={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
         <NavbarBrand>

@@ -1,5 +1,5 @@
 import { toast } from "@/component/utils/Swal";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { categories } from "./data.js";
 import Image from "next/image";
 import {
@@ -13,26 +13,39 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { LuEdit3 } from "react-icons/lu";
+import { updateCategory } from "@/component/api/category-service.js";
 
-const UpdateModal = () => {
+const UpdateModal = ({ row }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
+  const [loading, setLoading] = useState(false);
   const [inputText, setInputText] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState();
 
-  const handleCreate = () => {
-    let newCategory = { name: inputText };
+  const handleUpdate = async () => {
     try {
-      categories.push(newCategory);
-      toast("Created Successfully!", "success");
-    } catch (error) {
-      toast(`Hata : ${error.message}`, "error");
+      setLoading(true);
+      const newCategory = {
+        id: row.id,
+        name: inputText,
+      };
+      await updateCategory(category.id, newCategory);
+      toast("Category was updated successfully", "success");
+      onOpen();
+    } catch (err) {
+      toast(err, "error");
+    } finally {
+      setLoading(false);
     }
   };
 
+  useEffect(() => {
+    setInputText(row?.name);
+    setCategory(row);
+  }, []);
+
   return (
     <>
-      <LuEdit3 onClick={onOpen} />
+      <LuEdit3 onClick={onOpen} size={20} />
       <Modal
         backdrop="opaque"
         isOpen={isOpen}
@@ -69,14 +82,20 @@ const UpdateModal = () => {
                   <Image className="rounded-md" width={100} height={100} />
                   <input type="file" />
                 </div>
-                <Input variant="faded" type="text" label="Kategori" />
+                <Input
+                  variant="faded"
+                  type="text"
+                  label="Kategori"
+                  value={inputText}
+                  onValueChange={(value) => setInputText(value)}
+                />
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onClick={onClose}>
-                  Close
+                  Kapat
                 </Button>
-                <Button color="primary" onPress={handleCreate}>
-                  Action
+                <Button color="primary" onPress={handleUpdate}>
+                  Güncelle
                 </Button>
               </ModalFooter>
             </>

@@ -16,6 +16,7 @@ import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { logout } from "@/component/store/slices/auth-slice";
+import secureLocalStorage from "react-secure-storage";
 
 const menus = [
   { name: "Dashboard", link: "/admin", icon: MdOutlineSpaceDashboard },
@@ -43,7 +44,7 @@ const Sidebar = () => {
       if (result.isConfirmed) {
         Swal.fire("Loged Out!", "", "success");
         dispatch(logout());
-        localStorage.removeItem("token");
+        secureLocalStorage.removeItem("token");
         router.replace("/");
       }
     });
@@ -74,7 +75,6 @@ const Sidebar = () => {
           <ul className=" mt-4 pt-8 flex flex-col gap-1 relative text-gray-100">
             {menus.map(
               (menu, index) => (
-                console.log("router", router.asPath),
                 (
                   <Link
                     key={index}

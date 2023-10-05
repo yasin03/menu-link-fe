@@ -5,7 +5,7 @@ import CreateModal from "@/component/components/admin/categories/CreateModal";
 
 const page = () => {
   return (
-    <div className="flex-column items-center mx-auto p-4 ">
+    <div className="flex-column items-center p-4 mx-20">
       <Categories />
     </div>
   );
