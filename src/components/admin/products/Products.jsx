@@ -1,82 +1,166 @@
 import { createCategory } from "@/component/api/category-service";
-import { createCompany } from "@/component/api/company-service";
-import { createProduct } from "@/component/api/product-service";
-import { toast } from "@/component/utils/Swal";
-import React from "react";
+import DataTable from "react-data-table-component";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { question, toast } from "@/component/utils/Swal";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import Loading from "../../ui/Loading";
+import CreateProductModal from "./CreateProductModal";
+import Image from "next/image";
+import UpdateProduct from "./UpdateProduct";
+import { deleteProduct, getProductsAll } from "@/component/api/product-service";
+import { Input } from "@nextui-org/react";
 
 const Products = () => {
   const [show, setShow] = useState(false);
   const [category, setCategory] = useState("");
+  const [products, setProducts] = useState("");
+  const [totalRows, setTotalRows] = useState(0);
+
+  const [loading, setLoading] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleCreate = async () => {
-    const categories = {
-      name: category,
-    };
+  console.log(products);
+  const columns = [
+    {
+      name: "ID",
+      selector: (row, index) => index + 1,
+    },
+    {
+      name: "Ürün Resimleri",
+      selector: (row) => (
+        <div className="">
+          <Image
+            height={50}
+            width={50}
+            alt=""
+            src="/assets/img/qr-phone2.jpg"
+            className="rounded-md shadow-md cursor-pointer hover:scale-95"
+          />
+        </div>
+      ),
+    },
+    {
+      name: "Ürün Adı",
+      selector: (row) => row.name,
+    },
+    {
+      name: "Kalorisi",
+      selector: (row) => row.calories,
+    },
+    {
+      name: "Açıklama",
+      selector: (row) => row.description,
+    },
+    {
+      name: "Aktifmi",
+      selector: (row) => row.isActive,
+    },
+    {
+      name: "Fiyat",
+      selector: (row) => (
+        <Input
+          type="number"
+          placeholder="12"
+          labelPlacement="outside"
+          startContent={
+            <div className="pointer-events-none flex items-center">
+              <span className="text-default-400 text-small">₺</span>
+            </div>
+          }
+        />
+      ),
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div className="flex">
+          <Button
+            variant="outline-warning"
+            className="text-neutral-400 hover:text-blue-500 !p-2"
+            id={row.ID}
+          >
+            <UpdateProduct row={row} />
+          </Button>
+          <Button
+            variant="outline-warning"
+            className="text-red-400 hover:text-red-600  !p-1"
+            onClick={() => {
+              handleDelete(row);
+            }}
+            id={row.ID}
+          >
+            <RiDeleteBin6Line size={20} />
+          </Button>
+        </div>
+      ),
+      ignoreRowClick: true,
+    },
+  ];
 
+  const removeProduct = async (id) => {
     try {
-      await createCategory(categories);
-      toast("Created Successfully!", "success");
-    } catch (error) {
-      toast(`Hata : ${error.message}`, "error");
+      setLoading(true);
+      await deleteProduct(id);
+      toast("Category was deleted successfully", "warning");
+    } catch (err) {
+      toast(err, "error");
+    } finally {
+      setLoading(false);
     }
   };
 
+  const handleDelete = (row) => {
+    question(
+      "Are you sure to delete?",
+      "You won't be able to revert this!"
+    ).then((result) => {
+      if (result.isConfirmed) {
+        removeProduct(row.id);
+      }
+    });
+  };
+
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      const resp = await getProductsAll();
+      setProducts(resp.data.content);
+      setTotalRows(resp.data.totalElement);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Kategori Ekle
-      </Button>
-
-      <Modal
-        show={show}
-        onHide={handleClose}
-        className="absolute w-[50%] bg-white top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] shadow-md p-8 rounded-xl border"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group
-              className="mb-3 flex flex-col gap-2"
-              controlId="exampleForm.ControlInput1"
-            >
-              <Form.Label>Kategori</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="kategori ismi"
-                className="p-2 border border-gray-400 rounded-md"
-                autoFocus
-                onChange={(e) => setCategory(e.target.value)}
-              />
-            </Form.Group>
-            {/* <Form.Group
-              className="mb-3 flex flex-col gap-2"
-              controlId="exampleForm.ControlTextarea1"
-            >
-              <Form.Label>Example textarea</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                className="p-2 border border-gray-400 rounded-md"
-              />
-            </Form.Group> */}
-          </Form>
-        </Modal.Body>
-        <Modal.Footer className="flex gap-2 justify-end">
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleCreate}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="p-4">
+          <CreateProductModal />
+          <div className="border border-neutral-400 rounded-lg ">
+            <DataTable
+              columns={columns}
+              data={products}
+              paginationTotalRows={totalRows}
+              selectableRows
+              highlightOnHover
+              pagination
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 };

@@ -1,6 +1,5 @@
 import { toast } from "@/component/utils/Swal";
 import React, { useEffect, useState } from "react";
-import { categories } from "./data.js";
 import Image from "next/image";
 import {
   Button,

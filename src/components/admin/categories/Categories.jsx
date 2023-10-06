@@ -4,14 +4,14 @@ import {
   getCategoriesAll,
 } from "@/component/api/category-service";
 import DataTable from "react-data-table-component";
-import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { Button } from "react-bootstrap";
 import { question, toast } from "@/component/utils/Swal";
+import { Button } from "react-bootstrap";
 import axios from "axios";
 import CreateModal from "./CreateModal";
 import UpdateModal from "./UpdateModal";
 import Image from "next/image";
+import Loading from "../../ui/Loading";
 
 const Categories = ({ categoriesAll }) => {
   const [loading, setLoading] = useState(false);
@@ -33,6 +33,7 @@ const Categories = ({ categoriesAll }) => {
           <Image
             height={50}
             width={50}
+            alt=""
             src="/assets/img/qr-phone2.jpg"
             className="rounded-md shadow-md cursor-pointer hover:scale-95"
           />
@@ -67,8 +68,6 @@ const Categories = ({ categoriesAll }) => {
         </div>
       ),
       ignoreRowClick: true,
-      allowOverflow: true,
-      button: true,
     },
   ];
 
@@ -96,11 +95,6 @@ const Categories = ({ categoriesAll }) => {
     });
   };
 
-  const handleUpdate = (row) => {
-    console.log("row--", row);
-    return <UpdateModal row={row} />;
-  };
-
   const loadData = async () => {
     try {
       setLoading(true);
@@ -121,17 +115,23 @@ const Categories = ({ categoriesAll }) => {
 
   return (
     <>
-      <CreateModal />
-      <div className="border border-neutral-400 rounded-lg ">
-        <DataTable
-          columns={columns}
-          data={categories}
-          paginationTotalRows={totalRows}
-          selectableRows
-          highlightOnHover
-          pagination
-        />
-      </div>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <CreateModal />
+          <div className="border border-neutral-400 rounded-lg ">
+            <DataTable
+              columns={columns}
+              data={categories}
+              paginationTotalRows={totalRows}
+              selectableRows
+              highlightOnHover
+              pagination
+            />
+          </div>
+        </>
+      )}
     </>
   );
 };

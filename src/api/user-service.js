@@ -7,9 +7,14 @@ const API_URL = settings.apiURL;
 
 export const login = (values) => {
   console.log(API_URL);
-  return axios.post(`${API_URL}/login`, values);
+  return axios.post(
+    `https://menu-project-1c3dcd8eae29.herokuapp.com/login`,
+    values
+  );
 };
 
 export const getUser = () => {
-  return axios.get(`${API_URL}/users`, { headers: authHeader() });
+  return axios.get(`https://menu-project-1c3dcd8eae29.herokuapp.com/users`, {
+    headers: authHeader(),
+  });
 };

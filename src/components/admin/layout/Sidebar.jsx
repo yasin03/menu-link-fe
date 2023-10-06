@@ -3,6 +3,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
 import { BiSolidExit } from "react-icons/bi";
+import { SiSpeedtest } from "react-icons/si";
 import {
   MdOutlineSpaceDashboard,
   MdOutlineCategory,
@@ -23,6 +24,7 @@ const menus = [
   { name: "Kategoriler", link: "/admin/categories", icon: MdOutlineCategory },
   { name: "Ürünler", link: "/admin/products", icon: MdOutlineFastfood },
   { name: "Personel", link: "/admin/personal", icon: MdPersonOutline },
+  { name: "Test", link: "/admin/test", icon: SiSpeedtest },
 ];
 
 const Sidebar = () => {

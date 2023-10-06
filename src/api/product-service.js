@@ -8,9 +8,30 @@ export const createProduct = (product) => {
   return axios.post(
     `https://menu-project-1c3dcd8eae29.herokuapp.com/product/add`,
     product,
+    { headers: authHeader() }
+  );
+};
+
+export const getProductsAll = () => {
+  return axios.get(
+    `https://menu-project-1c3dcd8eae29.herokuapp.com/product/all`,
+    { headers: authHeader() }
+  );
+};
+
+export const deleteProduct = (id) => {
+  return axios.delete(
+    `https://menu-project-1c3dcd8eae29.herokuapp.com/product/${id}`,
+    { headers: authHeader() }
+  );
+};
+
+export const updateProduct = (id, product) => {
+  return axios.put(
+    `https://menu-project-1c3dcd8eae29.herokuapp.com/product/${id}`,
+    product,
     {
-      Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk1MDU4MzQwLCJleHAiOjE2OTUxNDQ3NDB9.bJ9DUpxLLLTuiH1ljp6ONGca1pmzgjTmVdM_J2SPyQWzj0oDLtURj8GmCzB3ls8gw1jTgu5vH9_fx7J9igszXA`,
+      headers: authHeader(),
     }
-    /*  { headers: authHeader() } */
   );
 };

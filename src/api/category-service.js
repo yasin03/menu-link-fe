@@ -4,7 +4,6 @@ import authHeader from "./auth-header";
 const api_url = process.env.API_URL;
 
 export const createCategory = (category) => {
-  console.log("categ ", category);
   return axios.post(
     `https://menu-project-1c3dcd8eae29.herokuapp.com/category/add`,
     category,
