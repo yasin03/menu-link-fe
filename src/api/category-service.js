@@ -1,7 +1,8 @@
 import axios from "axios";
 import authHeader from "./auth-header";
+import { settings } from "../utils/settings";
 
-const api_url = process.env.API_URL;
+const api_url = settings.apiURL;
 
 export const createCategory = (category) => {
   return axios.post(

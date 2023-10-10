@@ -33,19 +33,6 @@ const UpdateProduct = ({ row }) => {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState();
 
-  console.log(
-    "update-> " +
-      name +
-      " - " +
-      calories +
-      " - " +
-      description +
-      " - " +
-      selectedCategory.currentKey +
-      " - " +
-      isActive
-  );
-
   const handleUpdate = async () => {
     try {
       setLoading(true);

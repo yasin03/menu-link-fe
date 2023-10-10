@@ -12,6 +12,8 @@ import CreateModal from "./CreateModal";
 import UpdateModal from "./UpdateModal";
 import Image from "next/image";
 import Loading from "../../ui/Loading";
+import { useFormik } from "formik";
+import Picture from "./Picture";
 
 const Categories = ({ categoriesAll }) => {
   const [loading, setLoading] = useState(false);
@@ -19,26 +21,15 @@ const Categories = ({ categoriesAll }) => {
   const [category, setCategory] = useState({});
   const [totalRows, setTotalRows] = useState(0);
   const [saving, setSaving] = useState(false);
-  console.log("allCategory-> ", categoriesAll);
 
   const columns = [
     {
-      name: "ID",
+      name: "Sıra No",
       selector: (row, index) => index + 1,
     },
     {
       name: "Kategori Resmi",
-      selector: (row) => (
-        <div className="">
-          <Image
-            height={50}
-            width={50}
-            alt=""
-            src="/assets/img/qr-phone2.jpg"
-            className="rounded-md shadow-md cursor-pointer hover:scale-95"
-          />
-        </div>
-      ),
+      selector: (row) => <Picture />,
     },
     {
       name: "Kategori Adı",
@@ -100,7 +91,7 @@ const Categories = ({ categoriesAll }) => {
       setLoading(true);
       const resp = await getCategoriesAll();
       setCategories(resp.data.content);
-      setTotalRows(resp.data.totalElement);
+      setTotalRows(resp.data.totalElements);
     } catch (err) {
       console.log(err);
     } finally {

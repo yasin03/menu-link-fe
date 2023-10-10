@@ -1,6 +1,5 @@
 import { toast } from "@/component/utils/Swal";
 import React, { useState } from "react";
-import Image from "next/image";
 import {
   Button,
   Input,
@@ -11,50 +10,56 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import { LuPlus } from "react-icons/lu";
+import { BiLira } from "react-icons/bi";
 import { createCategory } from "@/component/api/category-service";
 import { Form, useFormik } from "formik";
 import * as Yup from "yup";
+import { addPrice } from "@/component/api/product-service";
+import Loading from "../../ui/Loading";
 
-const CreateModal = () => {
+const Price = ({ id }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [inputText, setInputText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [inputPrice, setInputPrice] = useState(Number);
 
   const initialValues = {
-    name: "",
+    price: inputPrice,
+    productId: "",
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string()
-      .min(3, "En az 3 karakter giriniz!")
-      .max(20, "En fazla 20 karakter girebilirsiniz!")
-      .required("Lütfen kategori adı giriniz!"),
+    price: Yup.number()
+      .min(1, "En az 1 rakam giriniz!")
+      .max(9999, "En fazla 4 basamaklı rakam girebilirsiniz!")
+      .required("Lütfen fiyat giriniz!"),
   });
-
-  const onSubmit = async () => {
-    try {
-      await createCategory(initialValues);
-      toast("Created Successfully!", "success");
-      onOpen();
-    } catch (error) {
-      toast(`Hata : ${error.message}`, "error");
-    }
-  };
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit,
   });
+
+  const onSubmit = async () => {
+    try {
+      await addPrice({ price: formik.values.price, productId: id });
+      toast("Created Successfully!", "success");
+      onOpen();
+    } catch (error) {
+      toast(`Hata : ${error.message}`, "error");
+    }
+  };
   return (
     <>
       <Button
-        className="bg-foreground text-background mb-3"
-        endContent={<LuPlus />}
+        endContent={<BiLira />}
         onClick={onOpen}
-        size="sm"
+        size="md"
+        color="primary"
+        variant="light"
+        className="text-black font-semibold"
       >
-        Ekle
+        125
       </Button>
 
       <Modal
@@ -86,17 +91,17 @@ const CreateModal = () => {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Kategori Ekle
+                Fiyat Güncelle
               </ModalHeader>
-              <form noValidate onSubmit={formik.handleSubmit}>
+              <form noValidate>
                 <ModalBody>
                   <Input
                     variant="faded"
                     id="name"
                     name="name"
-                    type="text"
-                    label="Kategori"
-                    onChange={formik.handleChange}
+                    type="number"
+                    label="Fiyat Giriniz"
+                    onChange={(e) => setInputPrice(e.target.value)}
                     onBlur={formik.handleBlur}
                     value={formik.values.name}
                   />
@@ -110,7 +115,11 @@ const CreateModal = () => {
                   <Button color="danger" variant="light" onClick={onClose}>
                     Kapat
                   </Button>
-                  <Button color="primary" type="submit">
+                  <Button
+                    color="primary"
+                    type="submit"
+                    onClick={formik.handleSubmit}
+                  >
                     Ekle
                   </Button>
                 </ModalFooter>
@@ -123,4 +132,4 @@ const CreateModal = () => {
   );
 };
 
-export default CreateModal;
+export default Price;

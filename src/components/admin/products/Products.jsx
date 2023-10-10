@@ -1,4 +1,3 @@
-import { createCategory } from "@/component/api/category-service";
 import DataTable from "react-data-table-component";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { question, toast } from "@/component/utils/Swal";
@@ -7,10 +6,11 @@ import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import Loading from "../../ui/Loading";
 import CreateProductModal from "./CreateProductModal";
-import Image from "next/image";
 import UpdateProduct from "./UpdateProduct";
 import { deleteProduct, getProductsAll } from "@/component/api/product-service";
-import { Input } from "@nextui-org/react";
+import Price from "./Price";
+import Discount from "./Discount";
+import Picture from "./Picture";
 
 const Products = () => {
   const [show, setShow] = useState(false);
@@ -23,7 +23,6 @@ const Products = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  console.log(products);
   const columns = [
     {
       name: "ID",
@@ -31,17 +30,7 @@ const Products = () => {
     },
     {
       name: "Ürün Resimleri",
-      selector: (row) => (
-        <div className="">
-          <Image
-            height={50}
-            width={50}
-            alt=""
-            src="/assets/img/qr-phone2.jpg"
-            className="rounded-md shadow-md cursor-pointer hover:scale-95"
-          />
-        </div>
-      ),
+      selector: (row) => <Picture />,
     },
     {
       name: "Ürün Adı",
@@ -61,18 +50,11 @@ const Products = () => {
     },
     {
       name: "Fiyat",
-      selector: (row) => (
-        <Input
-          type="number"
-          placeholder="12"
-          labelPlacement="outside"
-          startContent={
-            <div className="pointer-events-none flex items-center">
-              <span className="text-default-400 text-small">₺</span>
-            </div>
-          }
-        />
-      ),
+      selector: (row) => <Price id={row.id} />,
+    },
+    {
+      name: "İndirim",
+      selector: (row) => <Discount id={row.id} />,
     },
     {
       name: "Actions",
@@ -130,8 +112,9 @@ const Products = () => {
       const resp = await getProductsAll();
       setProducts(resp.data.content);
       setTotalRows(resp.data.totalElement);
-    } catch (err) {
-      console.log(err);
+      toast("Created Successfully!", "success");
+    } catch (error) {
+      toast(`Hata : ${error.message}`, "error");
     } finally {
       setLoading(false);
     }
