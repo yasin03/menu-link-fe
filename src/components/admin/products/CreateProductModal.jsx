@@ -81,6 +81,7 @@ const CreateProductModal = () => {
       <Modal
         backdrop="opaque"
         isOpen={isOpen}
+        size="3xl"
         onOpenChange={onOpenChange}
         motionProps={{
           variants: {
@@ -114,18 +115,20 @@ const CreateProductModal = () => {
                   <Image className="rounded-md" width={100} height={60} />
                   <input type="file" />
                 </div>
-                <Input
-                  variant="faded"
-                  type="text"
-                  label="Ürün Adı"
-                  onChange={(e) => setName(e.target.value)}
-                />
-                <Input
-                  variant="faded"
-                  type="number"
-                  label="Kalori"
-                  onChange={(e) => setCalories(e.target.value)}
-                />
+                <div className="flex flex-row gap-2">
+                  <Input
+                    variant="faded"
+                    type="text"
+                    label="Ürün Adı"
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <Input
+                    variant="faded"
+                    type="number"
+                    label="Kalori"
+                    onChange={(e) => setCalories(e.target.value)}
+                  />
+                </div>
                 <Textarea
                   variant="faded"
                   type="text"

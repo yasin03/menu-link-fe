@@ -112,7 +112,6 @@ const Products = () => {
       const resp = await getProductsAll();
       setProducts(resp.data.content);
       setTotalRows(resp.data.totalElement);
-      toast("Created Successfully!", "success");
     } catch (error) {
       toast(`Hata : ${error.message}`, "error");
     } finally {
@@ -137,7 +136,6 @@ const Products = () => {
               columns={columns}
               data={products}
               paginationTotalRows={totalRows}
-              selectableRows
               highlightOnHover
               pagination
             />

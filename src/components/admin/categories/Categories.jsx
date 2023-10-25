@@ -29,7 +29,15 @@ const Categories = ({ categoriesAll }) => {
     },
     {
       name: "Kategori Resmi",
-      selector: (row) => <Picture />,
+      selector: (row) => (
+        <Image
+          height={50}
+          width={50}
+          alt="qr-phone2.jpg"
+          src="/assets/img/qr-phone2.jpg"
+          className="rounded-md shadow-md cursor-pointer hover:scale-95 transition-all"
+        />
+      ),
     },
     {
       name: "Kategori Adı",
@@ -100,9 +108,10 @@ const Categories = ({ categoriesAll }) => {
   };
 
   useEffect(() => {
+    //setCategories([categoriesAll]);
     loadData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [saving]);
 
   return (
     <>
@@ -116,7 +125,6 @@ const Categories = ({ categoriesAll }) => {
               columns={columns}
               data={categories}
               paginationTotalRows={totalRows}
-              selectableRows
               highlightOnHover
               pagination
             />
@@ -131,9 +139,10 @@ export default Categories;
 
 export const getServerSideProps = async () => {
   const res = await getCategoriesAll();
+  console.log("res--", res);
   return {
     props: {
-      categoriesAll: res.data ? res.data : [],
+      categoriesAll: res.data.content ? res.data.content : [],
     },
   };
 };

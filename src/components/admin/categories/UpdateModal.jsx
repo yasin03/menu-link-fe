@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Button,
+  Divider,
   Input,
   Modal,
   ModalBody,
@@ -17,8 +18,19 @@ import { updateCategory } from "@/component/api/category-service.js";
 const UpdateModal = ({ row }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [loading, setLoading] = useState(false);
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = useState(row?.name);
   const [category, setCategory] = useState();
+ const [file, setFile] = useState("");
+ const imageSrc = [
+   { url: "/assets/img/qr-phone2.jpg" },
+   { url: "/assets/img/qr-phone.png" },
+   { url: "/assets/img/qr-phone2.jpg" },
+   { url: "/assets/img/qr-phone.png" },
+ ];
+
+ const handleSelectImage = () => {
+   imageSrc.push(file);
+ };
 
   const handleUpdate = async () => {
     try {
@@ -48,6 +60,7 @@ const UpdateModal = ({ row }) => {
       <Modal
         backdrop="opaque"
         isOpen={isOpen}
+        size="3xl"
         onOpenChange={onOpenChange}
         motionProps={{
           variants: {
@@ -77,17 +90,40 @@ const UpdateModal = ({ row }) => {
                 Kategori Güncelle
               </ModalHeader>
               <ModalBody>
-                <div className="flex justify-between mt-8">
-                  <Image className="rounded-md" width={100} height={100} />
-                  <input type="file" />
-                </div>
                 <Input
                   variant="faded"
+                  id="name"
+                  name="name"
                   type="text"
                   label="Kategori"
+                  onChange={setInputText}
                   value={inputText}
-                  onValueChange={(value) => setInputText(value)}
                 />
+                <Divider />
+                <div className="flex flex-row justify-between items-center gap-2">
+                  <Input type="file" onChange={setFile} className="grow" />
+                  <Button
+                    color="primary"
+                    variant="flat"
+                    onClick={handleSelectImage}
+                  >
+                    Resmi Ekle
+                  </Button>
+                </div>
+                <div className="flex flex-row gap-2 justify-center items-center flex-wrap">
+                  {imageSrc.map((item, i) => (
+                    <Image
+                      key={i}
+                      height={150}
+                      width={150}
+                      onClick={onOpen}
+                      alt={item.url}
+                      src={item.url}
+                      className="rounded-md shadow-md cursor-pointer hover:scale-95 transition-all"
+                    />
+                  ))}
+                </div>
+                <Divider />
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onClick={onClose}>

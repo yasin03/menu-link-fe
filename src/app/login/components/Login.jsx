@@ -46,8 +46,8 @@ const LoginPage = () => {
         console.log("token->", respAuth.data.token);
 
         dispatch(loginSuccess(respAuth.config.data));
-        toast("User logged in successfully", "success");
         router.push("/admin");
+        toast("User logged in successfully", "success");
       }
     } catch (error) {
       toast("Kullanıcı adı veya şifre hatalı" + error, "error");

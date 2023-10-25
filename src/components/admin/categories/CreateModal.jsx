@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import {
   Button,
+  ButtonGroup,
+  Divider,
   Input,
   Modal,
   ModalBody,
@@ -18,11 +20,25 @@ import * as Yup from "yup";
 
 const CreateModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = useState();
+  const [file, setFile] = useState("");
+  const imageSrc = [
+    { url: "/assets/img/qr-phone2.jpg" },
+    { url: "/assets/img/qr-phone.png" },
+    { url: "/assets/img/qr-phone2.jpg" },
+    { url: "/assets/img/qr-phone.png" },
+  ];
+
+  const handleSelectImage = () => {
+    imageSrc.push(file);
+  };
+
 
   const initialValues = {
     name: "",
   };
+
+  console.log("initial---", initialValues);
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -40,12 +56,12 @@ const CreateModal = () => {
       toast(`Hata : ${error.message}`, "error");
     }
   };
-
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit,
   });
+
   return (
     <>
       <Button
@@ -60,6 +76,7 @@ const CreateModal = () => {
       <Modal
         backdrop="opaque"
         isOpen={isOpen}
+        size="3xl"
         onOpenChange={onOpenChange}
         motionProps={{
           variants: {
@@ -88,7 +105,11 @@ const CreateModal = () => {
               <ModalHeader className="flex flex-col gap-1">
                 Kategori Ekle
               </ModalHeader>
-              <form noValidate onSubmit={formik.handleSubmit}>
+              <form
+                noValidate
+                onSubmit={formik.handleSubmit}
+                onReset={formik.handleReset}
+              >
                 <ModalBody>
                   <Input
                     variant="faded"
@@ -105,6 +126,31 @@ const CreateModal = () => {
                       {formik.errors.name}
                     </div>
                   ) : null}
+                  <Divider />
+                  <div className="flex flex-row justify-between items-center gap-2">
+                    <Input type="file" onChange={setFile} className="grow" />
+                    <Button
+                      color="primary"
+                      variant="flat"
+                      onClick={handleSelectImage}
+                    >
+                      Resmi Ekle
+                    </Button>
+                  </div>
+                  <div className="flex flex-row gap-2 justify-center items-center flex-wrap">
+                    {imageSrc.map((item, i) => (
+                      <Image
+                        key={i}
+                        height={150}
+                        width={150}
+                        onClick={onOpen}
+                        alt={item.url}
+                        src={item.url}
+                        className="rounded-md shadow-md cursor-pointer hover:scale-95 transition-all"
+                      />
+                    ))}
+                  </div>
+                  <Divider />
                 </ModalBody>
                 <ModalFooter>
                   <Button color="danger" variant="light" onClick={onClose}>
